@@ -1,0 +1,55 @@
+{
+  "name": "typescript-graphql",
+  "scripts": {
+    "start": "node dist/server",
+    "clean": "rm -rf dist",
+    "build": "yarn clean && yarn generate && tsc",
+    "generate": "yarn generate:prisma && yarn generate:nexus",
+    "generate:prisma": "prisma generate",
+    "generate:nexus": "ts-node --transpile-only src/schema",
+    "dev": "ts-node-dev --respawn --transpile-only src/server",
+    "devWatch": "nodemon",
+    "prismaPush": "prisma db push --preview-feature",
+    "lintFix": "prettier --write ."
+  },
+  "nodemonConfig": {
+    "delay": "2000",
+    "ignore": [
+      "src/generated/*",
+      "prisma/*.db"
+    ],
+    "watch": [
+      "src",
+      "prisma/schema.prisma"
+    ],
+    "ext": "ts,prisma",
+    "exec": "yarn generate && yarn dev"
+  },
+  "dependencies": {
+    "@apollo/federation": "^0.20.7",
+    "@nexus/schema": "0.19.2",
+    "@prisma/cli": "2.12.1",
+    "@prisma/client": "2.12.1",
+    "@types/node-fetch": "2.5.7",
+    "apollo-server": "2.19.0",
+    "graphql": "14.6.0",
+    "graphql-transform-federation": "^2.2.0",
+    "nexus-plugin-prisma": "0.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "12.19.8",
+    "@typescript-eslint/eslint-plugin": "^4.9.1",
+    "@typescript-eslint/parser": "^4.9.1",
+    "eslint": "^7.15.0",
+    "eslint-config-prettier": "^7.0.0",
+    "eslint-plugin-prettier": "^3.2.0",
+    "nodemon": "^2.0.6",
+    "prettier": "^2.2.1",
+    "ts-node": "9.1.0",
+    "ts-node-dev": "1.0.0-pre.50",
+    "typescript": "4.1.2"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  }
+}
